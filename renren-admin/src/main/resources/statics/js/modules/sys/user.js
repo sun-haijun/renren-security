@@ -40,7 +40,47 @@ $(function () {
         	$("#jqGrid").closest(".ui-jqgrid-bdiv").css({ "overflow-x" : "hidden" }); 
         }
     });
+
+    $('.summernote').summernote({
+        height : '220px',
+        width : '600px;',
+        lang : 'zh-CN',
+        callbacks: {
+            onImageUpload: function(files, editor, $editable) {
+                sendFile(files);
+            }
+        }
+    });
 });
+
+//编辑器新增的ajax上传图片函数
+function sendFile(files, editor, $editable) {
+    var size = files[0].size;
+    if((size / 1024 / 1024) > 2) {
+        alert("图片大小不能超过2M...");
+        return false;
+    }
+    console.log("size="+size);
+    var formData = new FormData();
+    formData.append("file", files[0]);
+    $.ajax({
+        data : formData,
+        type : "POST",
+        url : baseURL + "sys/oss/upload",    // 图片上传出来的url，返回的是图片上传后的路径，http格式
+        cache : false,
+        contentType : false,
+        processData : false,
+        dataType : "json",
+        success: function(data) {//data是返回的hash,key之类的值，key是定义的文件名
+            console.log(data);
+            $('.summernote').summernote('insertImage',data.url);
+        },
+        error:function(){
+            alert("上传失败");
+        }
+    });
+}
+
 var setting = {
     data: {
         simpleData: {
@@ -54,6 +94,8 @@ var setting = {
         }
     }
 };
+
+
 var ztree;
 
 var vm = new Vue({
@@ -138,6 +180,8 @@ var vm = new Vue({
         },
         saveOrUpdate: function () {
             var url = vm.user.userId == null ? "sys/user/save" : "sys/user/update";
+            var content_sn = $("#content_sn").summernote('code');
+            console.log(content_sn);
             $.ajax({
                 type: "POST",
                 url: baseURL + url,
