@@ -25,91 +25,72 @@
     <div v-show="!showList" class="panel panel-default">
         <div class="panel-heading">{{title}}</div>
         <form class="form-horizontal">
-														                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.title" placeholder=""/>
-                        </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">活动标题</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="nideshopTopic.title" placeholder="活动标题"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">活动摘要</div>
+                <div class="col-sm-10">
+                    <textarea class="form-control" rows="3" v-model="nideshopTopic.subtitle" placeholder="活动摘要说明"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label">活动配图：</label>
+                <div class="col-sm-8">
+                    <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;{{uploadTitle}}</a>
+                    <label>&nbsp;&nbsp;请保证图片符合以下条件：1、小于2M 2、JPG、JPEG、PNG格式。</label>
+                </div>
+            </div>
+
+            <div class="form-group" v-show="bannerUrl">
+                <label class="col-sm-3 control-label">当前配图：</label>
+                <div class="col-sm-8">
+                    <input type="hidden" v-model="nideshopTopic.link" />
+                    <img :src="bannerUrl" width="250px;" height="250px;"/>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <input id="content" name="content" v-model="nideshopTopic.content" type="hidden">
+                <div class="col-sm-2 control-label">内容</div>
+                <div class="col-sm-10">
+                    <div class="ibox-content no-padding">
+                        <div id="content_sn" class="summernote"></div>
                     </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.content" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.avatar" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.itemPicUrl" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.subtitle" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.topicCategoryId" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.priceInfo" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.readCount" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.scenePicUrl" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.topicTemplateId" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.topicTagId" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.sortOrder" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.isShow" placeholder=""/>
-                        </div>
-                    </div>
-											                    <div class="form-group">
-                        <div class="col-sm-2 control-label"></div>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" v-model="nideshopTopic.address" placeholder=""/>
-                        </div>
-                    </div>
-							            <div class="form-group">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">开始时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control content cursor-pointer" id="start_time" readonly="readonly" style="width: 250px;"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">结束时间</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control content cursor-pointer" id="end_time"  readonly="readonly" style="width: 250px;"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label">是否启用</div>
+                <label class="radio-inline">
+                    <input type="radio" name="isShow" value="1" v-model="nideshopTopic.isShow"/> 正常
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="isShow" value="0" v-model="nideshopTopic.isShow"/> 禁用
+                </label>
+            </div>
+
+            <div class="form-group">
                 <div class="col-sm-2 control-label"></div>
                 <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
                 &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>

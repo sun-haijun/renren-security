@@ -5,6 +5,8 @@ import java.util.Map;
 
 import io.renren.common.validator.ValidatorUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +31,9 @@ import io.renren.common.utils.R;
 @RestController
 @RequestMapping("shop/nideshopad")
 public class NideshopAdController {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private NideshopAdService nideshopAdService;
 
@@ -60,9 +65,11 @@ public class NideshopAdController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("shop:nideshopad:save")
-    public R save(@RequestBody NideshopAdEntity nideshopAd){
-        nideshopAdService.insert(nideshopAd);
+    public R save(@RequestBody Map<String,Object> params){
 
+        logger.info("正在操作添加广告：{}",params.toString());
+        NideshopAdEntity nideshopAd = new NideshopAdEntity();
+        nideshopAdService.insert(nideshopAd);
         return R.ok();
     }
 

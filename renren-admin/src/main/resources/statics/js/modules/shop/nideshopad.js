@@ -3,10 +3,11 @@ $(function () {
         url: baseURL + 'shop/nideshopad/list',
         datatype: "json",
         colModel: [			
-			{ label: '活动主题', name: 'name', index: 'name', width: 80 },
-			{ label: '活动链接', name: 'link', index: 'link', width: 80 },
+			{ label: '广告主题', name: 'name', index: 'name', width: 80 },
+			{ label: '广告跳转链接', name: 'link', index: 'link', width: 80 },
 			{ label: '活动配图', name: 'imageUrl', index: 'image_url', width: 80 },
 			{ label: '活动说明', name: 'content', index: 'content', width: 80 },
+            { label: '活动结束时间', name: 'startTime', index: 'end_time', width: 80 },
 			{ label: '活动结束时间', name: 'endTime', index: 'end_time', width: 80 },
             { label: '是否启用', name: 'enabled', width: 60, formatter: function(value, options, row){
                     return value === 0 ?
@@ -59,6 +60,7 @@ $(function () {
             if(r.code == 0){
                 alert('上传成功');
                 vm.bannerUrl = r.url;
+                vm.nideshopAd.imageUrl = r.url;
                 vm.uploadTitle = '重新上传';
             }else{
                 alert(r.msg);
@@ -66,32 +68,41 @@ $(function () {
         }
     });
 
-    var picker1 = $('#datetimepicker1').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: moment.locale('zh-cn'),
-        //minDate: '2016-7-1'
+    $('#start_time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        autoclose: true,
+        todayBtn: true,
+        language: "zh-CN",
+        todayHighlight: true,
+        startDate: new Date()
+    }).on('changeDate',function(ev){
+        var start_time=$("#start_time").val();
+        $("#end_time").datetimepicker('setStartDate',start_time);
+        $("#start_time").datetimepicker('hide');
     });
-    var picker2 = $('#datetimepicker2').datetimepicker({
-        format: 'YYYY-MM-DD',
-        locale: moment.locale('zh-cn')
+
+    $('#end_time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        autoclose: true,
+        todayBtn: true,
+        language: "zh-CN",
+        todayHighlight: true,
+    }).on('changeDate',function(ev){
+        var end_time=$("#end_time").val();
+        $("#start_time").datetimepicker('setEndDate',end_time);
+        $("#end_time").datetimepicker('hide');
     });
-    //动态设置最小值
-    picker1.on('dp.change', function (e) {
-        picker2.data('DateTimePicker').minDate(e.date);
-    });
-    //动态设置最大值
-    picker2.on('dp.change', function (e) {
-        picker1.data('DateTimePicker').maxDate(e.date);
-    });
+
 
 
     $('input[type=radio][name=linkType]').change(function() {
         vm.linkType = this.value;
+        vm.nideshopAd.linkType = this.value;
+        console.log(vm.nideshopAd.linkType);
     });
 
     $('#topicInput').typeahead({
         source: function (query, process) {
-
             return $.ajax({
                 url: baseURL + "shop/nideshoptopic/select",
                 type: 'post',
@@ -139,7 +150,7 @@ $(function () {
 
         updater: function (obj) {
             var item = JSON.parse(obj);
-            vm.linkId = item.id;
+            vm.nideshopAd.linkId = item.id;
             return item.name;
         }
 
@@ -169,7 +180,10 @@ var vm = new Vue({
         uploadTitle :'上传配图',
 		showList: true,
 		title: null,
-		nideshopAd: {},
+		nideshopAd: {
+            enabled:1,
+            linkType :'',
+        },
         config: {},
         bannerUrl:'',
         linkType:'',
@@ -201,6 +215,7 @@ var vm = new Vue({
 			vm.showList = false;
 			vm.title = "新增广告";
 			vm.nideshopAd = {};
+            vm.nideshopAd = {enabled:1};
             vm.getDept();
 		},
         getConfig: function () {
@@ -219,6 +234,14 @@ var vm = new Vue({
 		},
 		saveOrUpdate: function (event) {
 			var url = vm.nideshopAd.id == null ? "shop/nideshopad/save" : "shop/nideshopad/update";
+            var start_time=$("#start_time").val();
+            var end_time=$("#end_time").val();
+
+            console.log(start_time)
+            console.log(end_time)
+            vm.nideshopAd.adStartTime = start_time;
+            vm.nideshopAd.adEndTime = end_time;
+			console.log(JSON.stringify(vm.nideshopAd));
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
