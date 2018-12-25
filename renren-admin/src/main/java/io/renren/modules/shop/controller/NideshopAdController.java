@@ -3,7 +3,10 @@ package io.renren.modules.shop.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import io.renren.common.utils.DateUtils;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,10 +68,18 @@ public class NideshopAdController {
      */
     @RequestMapping("/save")
     @RequiresPermissions("shop:nideshopad:save")
-    public R save(@RequestBody Map<String,Object> params){
+    public R save(@RequestBody NideshopAdEntity nideshopAd){
 
-        logger.info("正在操作添加广告：{}",params.toString());
-        NideshopAdEntity nideshopAd = new NideshopAdEntity();
+        ValidatorUtils.validateEntity(nideshopAd, AddGroup.class);
+        if(StringUtils.equals(nideshopAd.getLinkType(),"topic")){
+            nideshopAd.setLink("/pages/topicDetail/topicDetail?id="+nideshopAd.getLinkId());
+        }else{
+            nideshopAd.setLink("/pages/goods/goods?id="+nideshopAd.getLinkId());
+        }
+        nideshopAd.setStartTime(Integer.valueOf(String.valueOf(DateUtils.stringToDate(nideshopAd.getAdStartTime(),"yyyy-MM-dd").getTime()).substring(0, 10)));
+        nideshopAd.setEndTime(Integer.valueOf(String.valueOf(DateUtils.stringToDate(nideshopAd.getAdEndTime(),"yyyy-MM-dd").getTime()).substring(0, 10)));
+        nideshopAd.setAdPositionId(1);
+        nideshopAd.setMediaType(1);
         nideshopAdService.insert(nideshopAd);
         return R.ok();
     }

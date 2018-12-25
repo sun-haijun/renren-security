@@ -1,10 +1,14 @@
 package io.renren.modules.shop.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.TableName;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 
@@ -15,13 +19,14 @@ import java.util.Date;
  */
 @TableName("nideshop_ad")
 public class NideshopAdEntity implements Serializable {
-	private static final long serialVersionUID = 1L;
 
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 
 	 */
 	@TableId
 	private Integer id;
+
 	/**
 	 * 
 	 */
@@ -30,22 +35,54 @@ public class NideshopAdEntity implements Serializable {
 	 * 
 	 */
 	private Integer mediaType;
+
 	/**
-	 * 
+	 * 广告名称
 	 */
+	@NotBlank(message="广告名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String name;
-	/**
-	 * 
-	 */
+
 	private String link;
 	/**
 	 * 
 	 */
+	@NotBlank(message="广告配图不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String imageUrl;
 	/**
 	 * 
 	 */
+	@NotBlank(message="广告摘要不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String content;
+
+	/**
+	 * 跳转方式
+	 */
+	@TableField(exist=false)
+	private String linkType;
+	/**
+	 * 跳转id
+	 */
+	@TableField(exist=false)
+	private Integer linkId;
+
+	/**
+	 * 跳转id
+	 */
+	@NotBlank(message="开始时间不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@TableField(exist=false)
+	private String adStartTime;
+
+	/**
+	 * 跳转id
+	 */
+	@NotBlank(message="结束时间不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@TableField(exist=false)
+	private String adEndTime;
+
+	/**
+	 *
+	 */
+	private Integer startTime;
 	/**
 	 * 
 	 */
@@ -53,6 +90,7 @@ public class NideshopAdEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@TableLogic(delval = "0",value = "1")
 	private Integer enabled;
 
 	/**
@@ -162,5 +200,45 @@ public class NideshopAdEntity implements Serializable {
 	 */
 	public Integer getEnabled() {
 		return enabled;
+	}
+
+	public String getLinkType() {
+		return linkType;
+	}
+
+	public void setLinkType(String linkType) {
+		this.linkType = linkType;
+	}
+
+	public Integer getLinkId() {
+		return linkId;
+	}
+
+	public void setLinkId(Integer linkId) {
+		this.linkId = linkId;
+	}
+
+	public String getAdStartTime() {
+		return adStartTime;
+	}
+
+	public void setAdStartTime(String adStartTime) {
+		this.adStartTime = adStartTime;
+	}
+
+	public String getAdEndTime() {
+		return adEndTime;
+	}
+
+	public void setAdEndTime(String adEndTime) {
+		this.adEndTime = adEndTime;
+	}
+
+	public Integer getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Integer startTime) {
+		this.startTime = startTime;
 	}
 }

@@ -7,13 +7,7 @@ $(function () {
                 label: '广告主题',
                 name: 'name',
                 index: 'name',
-                width: 80
-            },
-            {
-                label: '广告跳转链接',
-                name: 'link',
-                index: 'link',
-                width: 80
+                width: 120
             },
             {
                 label: '活动配图',
@@ -22,21 +16,21 @@ $(function () {
                 width: 80
             },
             {
-                label: '活动说明',
+                label: '活动摘要',
                 name: 'content',
                 index: 'content',
+                width: 120
+            },
+            {
+                label: '活动结束时间',
+                name: 'adStartTime',
+                index: 'adStartTime',
                 width: 80
             },
             {
                 label: '活动结束时间',
-                name: 'startTime',
-                index: 'end_time',
-                width: 80
-            },
-            {
-                label: '活动结束时间',
-                name: 'endTime',
-                index: 'end_time',
+                name: 'adEndTime',
+                index: 'adEndTime',
                 width: 80
             },
             {
@@ -106,11 +100,11 @@ $(function () {
     });
 
     $('#start_time').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        autoclose: true,
+        format: 'yyyy-mm-dd',
+        autoclose:true,//选中关闭
         todayBtn: true,
         language: "zh-CN",
-        todayHighlight: true,
+        minView: "month",//设置只显示到月份
         startDate: new Date()
     }).on('changeDate', function (ev) {
         var start_time = $("#start_time").val();
@@ -119,11 +113,12 @@ $(function () {
     });
 
     $('#end_time').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
-        autoclose: true,
+        format: 'yyyy-mm-dd',
+        autoclose:true,//选中关闭
         todayBtn: true,
         language: "zh-CN",
         todayHighlight: true,
+        minView: "month",//设置只显示到月份
     }).on('changeDate', function (ev) {
         var end_time = $("#end_time").val();
         $("#start_time").datetimepicker('setEndDate', end_time);
