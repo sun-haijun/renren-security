@@ -60,7 +60,6 @@ $(function () {
 		onComplete : function(file, r){
 			if(r.code == 0){
 				alert('上传成功');
-				vm.bannerUrl = r.url;
 				vm.nideshopTopic.scenePicUrl = r.url;
 				vm.uploadTitle = '重新上传';
 			}else{
@@ -68,6 +67,31 @@ $(function () {
 			}
 		}
 	});
+
+    $('#start_time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        autoclose: true,
+        todayBtn: true,
+        language: "zh-CN",
+        todayHighlight: true,
+        startDate: new Date()
+    }).on('changeDate', function (ev) {
+        var start_time = $("#start_time").val();
+        $("#end_time").datetimepicker('setStartDate', start_time);
+        $("#start_time").datetimepicker('hide');
+    });
+
+    $('#end_time').datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        autoclose: true,
+        todayBtn: true,
+        language: "zh-CN",
+        todayHighlight: true,
+    }).on('changeDate', function (ev) {
+        var end_time = $("#end_time").val();
+        $("#start_time").datetimepicker('setEndDate', end_time);
+        $("#end_time").datetimepicker('hide');
+    });
 
 	$('.summernote').summernote({
 		height : '220px',
@@ -100,7 +124,6 @@ function sendFile(files, editor, $editable) {
 		processData : false,
 		dataType : "json",
 		success: function(data) {//data是返回的hash,key之类的值，key是定义的文件名
-			console.log(data);
 			$('.summernote').summernote('insertImage',data.url);
 		},
 		error:function(){
@@ -113,12 +136,9 @@ var vm = new Vue({
 	el:'#rrapp',
 	data:{
 		uploadTitle :'上传配图',
-		bannerUrl:'',
 		showList: true,
 		title: null,
-		nideshopTopic: {
-			isShow:1,
-		}
+		nideshopTopic: {}
 	},
 	methods: {
 		query: function () {
@@ -127,7 +147,7 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.nideshopTopic = {isShow:1,};
+			vm.nideshopTopic = {isShow:1,scenePicUrl:'',}
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -183,6 +203,8 @@ var vm = new Vue({
 		getInfo: function(id){
 			$.get(baseURL + "shop/nideshoptopic/info/"+id, function(r){
                 vm.nideshopTopic = r.nideshopTopic;
+                console.log(vm.nideshopTopic.content)
+                $('.summernote').summernote('code',vm.nideshopTopic.content);
             });
 		},
 		reload: function (event) {
