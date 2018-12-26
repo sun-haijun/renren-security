@@ -10,10 +10,13 @@ $(function () {
                 width: 120
             },
             {
-                label: '活动配图',
+                label: '广告配图',
                 name: 'imageUrl',
                 index: 'image_url',
-                width: 80
+                width: 80,
+                formatter: function (value, options, row) {
+                    return '<button type="button" class="btn-sm btn-success" onclick="showImage(\''+ row.imageUrl+ '\');">点击预览配图</button>';
+                }
             },
             {
                 label: '活动摘要',
@@ -125,8 +128,6 @@ $(function () {
         $("#end_time").datetimepicker('hide');
     });
 
-
-
     $('input[type=radio][name=linkType]').change(function () {
         vm.linkType = this.value;
         vm.nideshopAd.linkType = this.value;
@@ -197,6 +198,22 @@ $(function () {
     })
 });
 
+function showImage(obj) {
+    console.log(obj);
+    vm.tempImageUrl = obj;
+    layer.open({
+        type: 1,
+        skin: 'layui-layer-molv',
+        title: "查看配图",
+        area: ['515px', '370px'],
+        shadeClose: false,
+        content: jQuery("#showImage"),
+        btn: ['确定', '取消'],
+        btn1: function (index) {
+            layer.close(index);
+        }
+    });
+}
 
 // tree 配置
 var setting = {
@@ -228,6 +245,7 @@ var vm = new Vue({
         bannerUrl: '',
         linkType: '',
         linkId: '',
+        tempImageUrl:'',
         dept: {
             parentName: null,
             parentId: 0,
@@ -305,7 +323,6 @@ var vm = new Vue({
             if (ids == null) {
                 return;
             }
-
             confirm('确定要删除选中的记录？', function () {
                 $.ajax({
                     type: "POST",
@@ -327,6 +344,7 @@ var vm = new Vue({
         getInfo: function (id) {
             $.get(baseURL + "shop/nideshopad/info/" + id, function (r) {
                 vm.nideshopAd = r.nideshopAd;
+
             });
         },
         // 选择树

@@ -1,8 +1,14 @@
 package io.renren.modules.shop.entity;
 
+import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import java.util.Date;
@@ -26,10 +32,12 @@ public class NideshopTopicEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@NotBlank(message="活动名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String title;
 	/**
 	 * 
 	 */
+	@NotBlank(message="活动内容不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String content;
 	/**
 	 * 
@@ -42,6 +50,7 @@ public class NideshopTopicEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@NotBlank(message="摘要不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String subtitle;
 	/**
 	 * 
@@ -58,6 +67,7 @@ public class NideshopTopicEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@NotBlank(message="活动配图不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String scenePicUrl;
 	/**
 	 * 
@@ -74,12 +84,20 @@ public class NideshopTopicEntity implements Serializable {
 	/**
 	 * 
 	 */
+	@TableLogic(delval = "0",value = "1")
 	private Integer isShow;
 	/**
 	 * 
 	 */
 	private String address;
 
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@NotBlank(message="活动开始时间不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	private Date startTime;
+
+	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+	@NotBlank(message="活动结束时间不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	private Date endTime;
 	/**
 	 * 设置：
 	 */
@@ -259,5 +277,21 @@ public class NideshopTopicEntity implements Serializable {
 	 */
 	public String getAddress() {
 		return address;
+	}
+
+	public Date getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(Date startTime) {
+		this.startTime = startTime;
+	}
+
+	public Date getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(Date endTime) {
+		this.endTime = endTime;
 	}
 }

@@ -16,6 +16,7 @@
 
 package io.renren.common.xss;
 
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.http.HttpHeaders;
@@ -60,8 +61,8 @@ public class XssHttpServletRequestWrapper extends HttpServletRequestWrapper {
             return super.getInputStream();
         }
 
-        //xss过滤
-        json = xssEncode(json);
+        //xss过滤 因为富文本的问题，暂时取消过滤标签
+        //json = xssEncode(json);
         final ByteArrayInputStream bis = new ByteArrayInputStream(json.getBytes("utf-8"));
         return new ServletInputStream() {
             @Override

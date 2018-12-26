@@ -5,9 +5,9 @@ $(function () {
         colModel: [			
 			{ label: '活动编号', name: 'id', index: 'id', width: 50, key: true },
 			{ label: '活动标题', name: 'title', index: 'title', width: 80 },
-			{ label: '活动概要', name: 'subtitle', index: 'subtitle', width: 80 },
-			{ label: '活动结束时间', name: 'startTime', index: 'end_time', width: 80 },
-			{ label: '活动结束时间', name: 'endTime', index: 'end_time', width: 80 },
+			{ label: '活动概要', name: 'subtitle', index: 'subtitle', width: 120 },
+			{ label: '活动开始时间', name: 'startTime', index: 'end_time', width: 60 },
+			{ label: '活动结束时间', name: 'endTime', index: 'end_time', width: 60 },
 			{ label: '是否有效', name: 'isShow', width: 40, formatter: function(value, options, row){
 					return value === 0 ?
 						'<span class="label label-danger">无效</span>' :
@@ -69,8 +69,9 @@ $(function () {
 	});
 
     $('#start_time').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
+        format: 'yyyy-mm-dd',
         autoclose: true,
+        minView: "month",//设置只显示到月份
         todayBtn: true,
         language: "zh-CN",
         todayHighlight: true,
@@ -82,7 +83,8 @@ $(function () {
     });
 
     $('#end_time').datetimepicker({
-        format: 'yyyy-mm-dd hh:ii',
+        format: 'yyyy-mm-dd',
+        minView: "month",//设置只显示到月份
         autoclose: true,
         todayBtn: true,
         language: "zh-CN",
@@ -103,6 +105,8 @@ $(function () {
 			}
 		}
 	});
+
+
 });
 
 //编辑器新增的ajax上传图片函数
@@ -147,7 +151,8 @@ var vm = new Vue({
 		add: function(){
 			vm.showList = false;
 			vm.title = "新增";
-			vm.nideshopTopic = {isShow:1,scenePicUrl:'',}
+			vm.nideshopTopic = {isShow:1,scenePicUrl:'',};
+            $('.summernote').summernote('code','');
 		},
 		update: function (event) {
 			var id = getSelectedRow();
@@ -161,6 +166,13 @@ var vm = new Vue({
 		},
 		saveOrUpdate: function (event) {
 			var url = vm.nideshopTopic.id == null ? "shop/nideshoptopic/save" : "shop/nideshoptopic/update";
+            var start_time = $("#start_time").val();
+            var end_time = $("#end_time").val();
+            var sHTML = $('.summernote').summernote('code');
+            vm.nideshopTopic.startTime = start_time;
+            vm.nideshopTopic.endTime = end_time;
+            vm.nideshopTopic.content = sHTML;
+			console.log(vm.nideshopTopic)
 			$.ajax({
 				type: "POST",
 			    url: baseURL + url,
@@ -190,7 +202,7 @@ var vm = new Vue({
 				    data: JSON.stringify(ids),
 				    success: function(r){
 						if(r.code == 0){
-							alert('操作成功', function(index){
+							alert('保存成功', function(index){
 								$("#jqGrid").trigger("reloadGrid");
 							});
 						}else{
@@ -203,7 +215,6 @@ var vm = new Vue({
 		getInfo: function(id){
 			$.get(baseURL + "shop/nideshoptopic/info/"+id, function(r){
                 vm.nideshopTopic = r.nideshopTopic;
-                console.log(vm.nideshopTopic.content)
                 $('.summernote').summernote('code',vm.nideshopTopic.content);
             });
 		},

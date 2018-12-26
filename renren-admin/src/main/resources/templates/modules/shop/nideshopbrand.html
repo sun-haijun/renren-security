@@ -2,7 +2,7 @@
 <html>
 <head>
     <title></title>
-		<#include "/header.html">
+    <#include "/header.html">
 </head>
 <body>
 <div id="rrapp" v-cloak>
@@ -14,6 +14,9 @@
 			<#if shiro.hasPermission("shop:nideshopbrand:update")>
             <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
 			</#if>
+            <#if shiro.hasPermission("shop:nideshopbrand:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+            </#if>
         </div>
         <table id="jqGrid"></table>
         <div id="jqGridPager"></div>
@@ -28,7 +31,6 @@
                     <input type="text" class="form-control" v-model="nideshopBrand.name" placeholder="品牌名称"/>
                 </div>
             </div>
-
             <div class="form-group">
                 <div class="col-sm-2 control-label">品牌介绍</div>
                 <div class="col-sm-10">
@@ -50,12 +52,11 @@
                 </div>
             </div>
 
-
             <div class="form-group" v-show="nideshopBrand.newPicUrl">
                 <label class="col-sm-3 control-label">当前首页配图：</label>
                 <div class="col-sm-8">
                     <input type="hidden" v-model="nideshopBrand.newPicUrl" />
-                    <img :src="nideshopBrand.newPicUrl" width="250px;" height="250px;"/>
+                    <img :src="nideshopBrand.newPicUrl" width="200px;" height="200px;"/>
                 </div>
             </div>
 
@@ -71,30 +72,19 @@
                 <label class="col-sm-3 control-label">当前列表配图：</label>
                 <div class="col-sm-8">
                     <input type="hidden" v-model="nideshopBrand.appListPicUrl" />
-                    <img :src="nideshopBrand.appListPicUrl" width="250px;" height="250px;"/>
+                    <img :src="nideshopBrand.appListPicUrl" width="350px;" height="180px;"/>
                 </div>
             </div>
 
             <div class="form-group">
-                <div class="col-sm-2 control-label">是否推荐</div>
+                <div class="col-sm-2 control-label">是否首页推荐</div>
                 <label class="radio-inline">
                     <input type="radio" name="isNew" value="0" v-model="nideshopBrand.isNew"/> 禁用
                 </label>
                 <label class="radio-inline">
-                    <input type="radio" name="isNew" value="1" v-model="nideshopBrand.isNew"/> 正常
+                    <input type="radio" name="isNew" value="1" v-model="nideshopBrand.isNew"/> 推荐
                 </label>
             </div>
-
-            <div class="form-group">
-                <div class="col-sm-2 control-label">是否有效</div>
-                <label class="radio-inline">
-                    <input type="radio" name="isShow" value="0" v-model="nideshopBrand.isShow"/> 禁用
-                </label>
-                <label class="radio-inline">
-                    <input type="radio" name="isShow" value="1" v-model="nideshopBrand.isShow"/> 正常
-                </label>
-            </div>
-
             <div class="form-group">
                 <div class="col-sm-2 control-label"></div>
                 <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
@@ -102,8 +92,11 @@
             </div>
         </form>
     </div>
-</div>
 
+    <div id="showImage" style="display: none;padding:10px;">
+        <img :src="tempImageUrl" width="500px;" height="240px;"/>
+    </div>
+</div>
 <script src="${request.contextPath}/statics/js/modules/shop/nideshopbrand.js?_${.now?long}"></script>
 </body>
 </html>

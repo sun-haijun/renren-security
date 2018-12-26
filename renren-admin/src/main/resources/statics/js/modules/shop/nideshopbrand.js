@@ -23,16 +23,34 @@ $(function () {
                 width: 100
             },
             {
+                label: '首页配图',
+                name: 'newPicUrl',
+                index: 'newPicUrl',
+                width: 80,
+                formatter: function (value, options, row) {
+                    return '<button type="button" class="btn-sm btn-success" onclick="showImage(\''+ row.newPicUrl+ '\');">点击预览配图</button>';
+                }
+            },
+            {
+                label: '列表配图',
+                name: 'appListPicUrl',
+                index: 'appListPicUrl',
+                width: 80,
+                formatter: function (value, options, row) {
+                    return '<button type="button" class="btn-sm btn-success" onclick="showImage(\''+ row.appListPicUrl+ '\');">点击预览配图</button>';
+                }
+            },
+            {
                 label: '起步价(元)',
                 name: 'floorPrice',
                 index: 'floor_price',
-                width: 40
+                width: 30
             },
             {
                 label: '是否有效',
                 name: 'isShow',
                 index: 'is_show',
-                width: 40,
+                width: 30,
                 formatter: function (value, options, row) {
                     return value === 0 ?
                         '<span class="label label-danger">禁用</span>' :
@@ -43,7 +61,7 @@ $(function () {
                 label: '首页推荐',
                 name: 'isNew',
                 index: 'is_new',
-                width: 40,
+                width: 30,
                 formatter: function (value, options, row) {
                     return value === 0 ?
                         '<span class="label label-danger">否</span>' :
@@ -125,12 +143,30 @@ $(function () {
     });
 });
 
+
+function showImage(obj) {
+    vm.tempImageUrl = obj;
+    layer.open({
+        type: 1,
+        skin: 'layui-layer-molv',
+        title: "查看配图",
+        area: ['515px', '370px'],
+        shadeClose: false,
+        content: jQuery("#showImage"),
+        btn: ['确定', '取消'],
+        btn1: function (index) {
+            layer.close(index);
+        }
+    });
+}
+
 var vm = new Vue({
     el: '#rrapp',
     data: {
+        tempImageUrl:'',
         showList: true,
         title: null,
-        nideshopBrand: {}
+        nideshopBrand: {},
     },
     methods: {
         query: function () {
@@ -148,7 +184,6 @@ var vm = new Vue({
             }
             vm.showList = false;
             vm.title = "修改";
-
             vm.getInfo(id)
         },
         saveOrUpdate: function (event) {
@@ -175,7 +210,6 @@ var vm = new Vue({
             if (ids == null) {
                 return;
             }
-
             confirm('确定要删除选中的记录？', function () {
                 $.ajax({
                     type: "POST",

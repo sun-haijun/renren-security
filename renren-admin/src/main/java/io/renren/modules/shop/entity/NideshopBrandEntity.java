@@ -1,8 +1,12 @@
 package io.renren.modules.shop.entity;
 
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.annotations.TableLogic;
 import com.baomidou.mybatisplus.annotations.TableName;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 
+import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.io.Serializable;
 import java.util.Date;
@@ -26,6 +30,7 @@ public class NideshopBrandEntity implements Serializable {
 	/**
 	 * 品牌名称
 	 */
+	@NotBlank(message="品牌名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String name;
 	/**
 	 * 配图
@@ -34,6 +39,7 @@ public class NideshopBrandEntity implements Serializable {
 	/**
 	 * 品牌介绍
 	 */
+	@NotBlank(message="品牌介绍不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String simpleDesc;
 	/**
 	 * 品牌介绍
@@ -46,14 +52,17 @@ public class NideshopBrandEntity implements Serializable {
 	/**
 	 * 是否有效0无效1有效
 	 */
+	@TableLogic(delval = "0",value = "1")
 	private Integer isShow;
 	/**
 	 * 品牌起步价
 	 */
+	@NotBlank(message="品牌起步价不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private BigDecimal floorPrice;
 	/**
 	 * 列表配图
 	 */
+	@NotBlank(message="品牌列表配图不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String appListPicUrl;
 	/**
 	 * 是否推荐0否1推荐
@@ -62,6 +71,7 @@ public class NideshopBrandEntity implements Serializable {
 	/**
 	 * 首页配图
 	 */
+	@NotBlank(message="品牌首页配图不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String newPicUrl;
 	/**
 	 * 临时变量
