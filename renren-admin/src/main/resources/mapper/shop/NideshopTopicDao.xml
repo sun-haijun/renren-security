@@ -27,7 +27,7 @@
             *
         FROM
             nideshop_topic
-        WHERE
+        WHERE is_show = 1 and
             title LIKE CONCAT('',#{topicName},'%')
     </select>
 </mapper>
