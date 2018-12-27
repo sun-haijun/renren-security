@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -75,6 +76,7 @@ public class NideshopTopicController {
     @RequestMapping("/save")
     @RequiresPermissions("shop:nideshoptopic:save")
     public R save(@RequestBody NideshopTopicEntity nideshopTopic){
+        ValidatorUtils.validateEntity(nideshopTopic, AddGroup.class);
         nideshopTopicService.insert(nideshopTopic);
 
         return R.ok();

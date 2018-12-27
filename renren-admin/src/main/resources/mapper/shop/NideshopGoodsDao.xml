@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.shop.dao.NideshopGoodsDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.shop.entity.NideshopGoodsEntity" id="nideshopGoodsMap">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="category_id"/>
+        <result property="goodsSn" column="goods_sn"/>
+        <result property="name" column="name"/>
+        <result property="brandId" column="brand_id"/>
+        <result property="goodsNumber" column="goods_number"/>
+        <result property="keywords" column="keywords"/>
+        <result property="goodsBrief" column="goods_brief"/>
+        <result property="goodsDesc" column="goods_desc"/>
+        <result property="isOnSale" column="is_on_sale"/>
+        <result property="addTime" column="add_time"/>
+        <result property="sortOrder" column="sort_order"/>
+        <result property="isDelete" column="is_delete"/>
+        <result property="attributeCategory" column="attribute_category"/>
+        <result property="counterPrice" column="counter_price"/>
+        <result property="extraPrice" column="extra_price"/>
+        <result property="isNew" column="is_new"/>
+        <result property="goodsUnit" column="goods_unit"/>
+        <result property="primaryPicUrl" column="primary_pic_url"/>
+        <result property="listPicUrl" column="list_pic_url"/>
+        <result property="retailPrice" column="retail_price"/>
+        <result property="sellVolume" column="sell_volume"/>
+        <result property="primaryProductId" column="primary_product_id"/>
+        <result property="unitPrice" column="unit_price"/>
+        <result property="promotionDesc" column="promotion_desc"/>
+        <result property="promotionTag" column="promotion_tag"/>
+        <result property="appExclusivePrice" column="app_exclusive_price"/>
+        <result property="isAppExclusive" column="is_app_exclusive"/>
+        <result property="isLimited" column="is_limited"/>
+        <result property="isHot" column="is_hot"/>
+    </resultMap>
+
+
+</mapper>

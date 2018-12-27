@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+		<#include "/header.html">
+    <link rel="stylesheet" href="${request.contextPath}/statics/css/bootstrap-table.min.css">
+    <link rel="stylesheet" href="${request.contextPath}/statics/plugins/treegrid/jquery.treegrid.css">
+    <script src="${request.contextPath}/statics/libs/bootstrap-table.min.js"></script>
+    <script src="${request.contextPath}/statics/plugins/treegrid/jquery.treegrid.min.js"></script>
+    <script src="${request.contextPath}/statics/plugins/treegrid/jquery.treegrid.bootstrap3.js"></script>
+    <script src="${request.contextPath}/statics/plugins/treegrid/jquery.treegrid.extension.js"></script>
+    <script src="${request.contextPath}/statics/plugins/treegrid/tree.table.js"></script>
+</head>
+<body>
+<div id="rrapp" v-cloak>
+    <div v-show="showList">
+        <div class="grid-btn">
+			<#if shiro.hasPermission("shop:nideshopcategory:save")>
+            <a class="btn btn-primary" @click="add"><i class="fa fa-plus"></i>&nbsp;新增</a>
+			</#if>
+			<#if shiro.hasPermission("shop:nideshopcategory:update")>
+            <a class="btn btn-primary" @click="update"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a>
+			</#if>
+			<#if shiro.hasPermission("shop:nideshopcategory:delete")>
+            <a class="btn btn-primary" @click="del"><i class="fa fa-trash-o"></i>&nbsp;删除</a>
+			</#if>
+        </div>
+        <table id="categoryTable" data-mobile-responsive="true" data-click-to-select="true">
+            <thead>
+            <tr>
+                <th data-field="selectItem" data-checkbox="true"></th>
+            </tr>
+            </thead>
+        </table>
+    </div>
+
+    <div v-show="!showList" class="panel panel-default">
+        <div class="panel-heading">{{title}}</div>
+        <form class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-2 control-label">分类名称</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="nideshopCategory.name" placeholder="分类名称"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">上级分类</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" style="cursor:pointer;" v-model="nideshopCategory.parentName" @click="categoryTree" readonly="readonly" placeholder="选择分类"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">分类描述</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="nideshopCategory.frontName" placeholder="分类描述"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-2 control-label">排序号</div>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" v-model="nideshopCategory.sortOrder" placeholder="排序号"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">分类配图：</label>
+                <div class="col-sm-8">
+                    <a class="btn btn-primary" id="upload"><i class="fa fa-plus"></i>&nbsp;{{uploadTitle}}</a>
+                    <label>&nbsp;&nbsp;请保证图片符合以下条件：1、小于2M 2、JPG、JPEG、PNG格式。</label>
+                </div>
+            </div>
+
+            <div class="form-group" v-show="nideshopCategory.wapBannerUrl">
+                <label class="col-sm-3 control-label">当前配图：</label>
+                <div class="col-sm-8">
+                    <input type="hidden" v-model="nideshopCategory.wapBannerUrl" />
+                    <img :src="nideshopCategory.wapBannerUrl" width="250px;" height="250px;"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-2 control-label"></div>
+                <input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+                &nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="reload" value="返回"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- 选择部门 -->
+<div id="categoryLayer" style="display: none;padding:10px;">
+    <ul id="categoryTree" class="ztree"></ul>
+</div>
+<script src="${request.contextPath}/statics/js/modules/shop/nideshopcategory.js?_${.now?long}"></script>
+</body>
+</html>

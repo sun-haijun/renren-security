@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotations.TableName;
 import io.renren.common.validator.group.AddGroup;
 import io.renren.common.validator.group.UpdateGroup;
 
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.io.Serializable;
@@ -57,7 +58,7 @@ public class NideshopBrandEntity implements Serializable {
 	/**
 	 * 品牌起步价
 	 */
-	@NotBlank(message="品牌起步价不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@DecimalMin(value="0",message = "品牌起步价不能为空")
 	private BigDecimal floorPrice;
 	/**
 	 * 列表配图
