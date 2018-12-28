@@ -48,7 +48,7 @@ public class NideshopGoodsEntity implements Serializable {
 	/**
 	 * 商品名称
 	 */
-	@NotNull(message="商品名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
+	@NotBlank(message="商品名称不能为空", groups = {AddGroup.class, UpdateGroup.class})
 	private String name;
 	/**
 	 * 所属品牌
