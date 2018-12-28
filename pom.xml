@@ -5,7 +5,6 @@
     <artifactId>renren-security</artifactId>
     <version>3.2.0</version>
     <packaging>pom</packaging>
-
     <name>renren-security</name>
     <url>http://www.renren.io</url>
 
