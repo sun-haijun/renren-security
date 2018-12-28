@@ -120,8 +120,8 @@ var vm = new Vue({
         },
 		add: function(){
 			vm.showList = false;
-			vm.title = "新增";
-			vm.nideshopGoodsGallery = {imgUrl:'',tempImageUrl:'',};
+			vm.title = "新增轮播图";
+			vm.nideshopGoodsGallery = {imgUrl:'',tempImageUrl:'',isDelete:0,};
             vm.loadGoods();
 		},
 		update: function (event) {
@@ -130,9 +130,10 @@ var vm = new Vue({
 				return ;
 			}
 			vm.showList = false;
-            vm.title = "修改";
-            
-            vm.getInfo(id)
+            vm.title = "修改轮播图";
+            vm.uploadTitle = "重新上传";
+            vm.getInfo(id);
+            vm.loadGoods();
 		},
 		saveOrUpdate: function (event) {
 			var url = vm.nideshopGoodsGallery.id == null ? "shop/nideshopgoodsgallery/save" : "shop/nideshopgoodsgallery/update";
